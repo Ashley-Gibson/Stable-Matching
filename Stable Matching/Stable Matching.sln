@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29905.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stable Matching", "Stable Matching\Stable Matching.csproj", "{B32FF5B6-73D1-45CE-B4AA-78701A1A4802}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B32FF5B6-73D1-45CE-B4AA-78701A1A4802}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B32FF5B6-73D1-45CE-B4AA-78701A1A4802}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B32FF5B6-73D1-45CE-B4AA-78701A1A4802}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B32FF5B6-73D1-45CE-B4AA-78701A1A4802}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4C513D9F-15EB-4B47-B0F6-F238A1DA53AD}
+	EndGlobalSection
+EndGlobal
