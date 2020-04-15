@@ -1,29 +1,49 @@
 ﻿// Algorithm from: https://en.wikipedia.org/wiki/Gale%E2%80%93Shapley_algorithm#Algorithm
 
-using System;
 using System.Collections.Generic;
 
 namespace Stable_Matching
 {
     public class StableMatching
     {
-        public readonly Dictionary<string, string[]> men = new Dictionary<string, string[]>(){
-            { "David", new string[] { "Amy", "Jessica", "Elise" }},
-            { "John", new string[] { "Jessica","Elise", "Amy" }},
-            { "Adam", new string[] { "Elise","Amy", "Jessica" }}
-        };
+        public readonly List<Male> men = new List<Male>();
 
-        public readonly Dictionary<string, string[]> women = new Dictionary<string, string[]>(){
-            { "Amy", new string[] { "David", "John", "Adam" }},
-            { "Jessica", new string[] { "John", "David", "Adam" }},
-            { "Elise", new string[] { "Adam", "John", "David" }}
-        };
+        public readonly List<Female> women = new List<Female>();
 
-        public List<(string, string)> FindMatches()
+        public void InitPeople()
         {
-            List<(string, string)> matches = new List<(string, string)>();
+            Male David = new Male(), James = new Male(), John = new Male(), Adam = new Male();
+            Female Amy = new Female(), Elise = new Female(), Jessica = new Female(), Donna = new Female();
 
+            David.SetPreferences(new Person[]{ Amy, Elise, Jessica, Donna});
+            James.SetPreferences(new Person[] { Amy, Elise, Jessica, Donna });
+            John.SetPreferences(new Person[] { Amy, Elise, Jessica, Donna });
+            Adam.SetPreferences(new Person[] { Amy, Elise, Jessica, Donna });
 
+            Amy.SetPreferences(new Person[] { Amy, Elise, Jessica, Donna });
+            Elise.SetPreferences(new Person[] { Amy, Elise, Jessica, Donna });
+            Jessica.SetPreferences(new Person[] { Amy, Elise, Jessica, Donna });
+            Donna.SetPreferences(new Person[] { Amy, Elise, Jessica, Donna });
+
+            men.Add(David);
+            men.Add(James);
+            men.Add(John);
+            men.Add(Adam);
+
+            women.Add(Amy);
+            women.Add(Elise);
+            women.Add(Jessica);
+            women.Add(Donna);
+        }
+
+        public List<Person> FindMatches()
+        {
+            List<Person> matches = new List<Person>();
+
+            while(men.Exists(x => !x.IsMatched))
+            {
+
+            }
 
             return matches;
         }
