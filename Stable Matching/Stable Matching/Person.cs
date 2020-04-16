@@ -4,25 +4,32 @@
     {
         public string Name { get; set; }
         public bool IsMatched { get; set; }
-        internal Person[] Preferences { get; set; }
+        private Person[] Preferences { get; set; }
+
+        public Person EngagedTo { get; set; }
 
         public void SetPreferences(Person[] people) 
         { 
-            Preferences = people; 
+            Preferences = people;           
+        }
+
+        public Person[] GetPreferences()
+        {
+            return Preferences;
         }
     }
 
     public class Male : Person {
-        public Male()
+        public Male(string name)
         {
-            Name = GetType().GetProperties()[0].Name;
+            Name = name;
         }
     }
 
     public class Female : Person {
-        public Female()
+        public Female(string name)
         {
-            Name = GetType().GetProperties()[0].Name;
+            Name = name;
         }
     }
 }

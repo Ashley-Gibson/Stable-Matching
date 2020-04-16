@@ -1,29 +1,32 @@
 ﻿// Algorithm from: https://en.wikipedia.org/wiki/Gale%E2%80%93Shapley_algorithm#Algorithm
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Stable_Matching
 {
-    public class StableMatching
+    public static class StableMatching
     {
-        public readonly List<Male> men = new List<Male>();
+        private static readonly List<Male> men = new List<Male>();
+        private static readonly List<Female> women = new List<Female>();
 
-        public readonly List<Female> women = new List<Female>();
+        private static int menCount = 0;
 
-        public void InitPeople()
+        public static void InitPeople()
         {
-            Male David = new Male(), James = new Male(), John = new Male(), Adam = new Male();
-            Female Amy = new Female(), Elise = new Female(), Jessica = new Female(), Donna = new Female();
+            Male David = new Male("David"), James = new Male("James"), John = new Male("John"), Adam = new Male("Adam");
+            Female Amy = new Female("Amy"), Elise = new Female("Elise"), Jessica = new Female("Jessica"), Donna = new Female("Donna");
 
-            David.SetPreferences(new Person[]{ Amy, Elise, Jessica, Donna});
-            James.SetPreferences(new Person[] { Amy, Elise, Jessica, Donna });
-            John.SetPreferences(new Person[] { Amy, Elise, Jessica, Donna });
-            Adam.SetPreferences(new Person[] { Amy, Elise, Jessica, Donna });
+            David.SetPreferences(new Person[]{ Donna, Elise, Donna, Amy });
+            James.SetPreferences(new Person[] { Elise, Amy, Jessica, Donna });
+            John.SetPreferences(new Person[] { Jessica, Elise, Amy, Jessica });
+            Adam.SetPreferences(new Person[] { Elise, Amy, Donna, Jessica });
 
-            Amy.SetPreferences(new Person[] { Amy, Elise, Jessica, Donna });
-            Elise.SetPreferences(new Person[] { Amy, Elise, Jessica, Donna });
-            Jessica.SetPreferences(new Person[] { Amy, Elise, Jessica, Donna });
-            Donna.SetPreferences(new Person[] { Amy, Elise, Jessica, Donna });
+            Amy.SetPreferences(new Person[] { David, James, John, Adam });
+            Elise.SetPreferences(new Person[] { James, David, John, Adam });
+            Jessica.SetPreferences(new Person[] { James, John, David, James });
+            Donna.SetPreferences(new Person[] { Adam, David, James, John });
 
             men.Add(David);
             men.Add(James);
@@ -36,48 +39,79 @@ namespace Stable_Matching
             women.Add(Donna);
         }
 
-        public List<Person> FindMatches()
+        public static void OutputPreferences()
         {
-            List<Person> matches = new List<Person>();
-
-            while(men.Exists(x => !x.IsMatched))
+            Console.WriteLine("\nPREFERENCES");
+            foreach (Male man in men)
             {
+                Person[] preferences = man.GetPreferences();
+                Console.Write($"\n{man.Name} preference list - ");
 
+                foreach (Female woman in preferences)
+                {
+                    Console.Write($"[{woman.Name}] ");
+                }
             }
+            Console.WriteLine("\n");
+        }
 
-            return matches;
+        public static void OutputMatches()
+        {
+            Console.WriteLine("\nMATCHES");
+            foreach (Male man in men)
+            {
+                Console.Write($"\n{man.Name} and {man.EngagedTo.Name} ");
+            }
+            Console.WriteLine("\n");
+        }
+
+        public static void FindMatches()
+        {
+            menCount = men.Count;
+            while (menCount > 0)
+            {
+                foreach (Male man in men)
+                    if(!man.IsMatched)
+                        FindMatch(man);
+            }
+        }
+
+        private static void FindMatch(Male man)
+        {
+            Console.WriteLine($"Matching {man.Name}...");
+
+            foreach (Female woman in man.GetPreferences())
+            {
+                if (woman.EngagedTo == null)
+                {
+                    man.EngagedTo = woman;
+                    woman.EngagedTo = man;
+                    menCount--;
+                    Console.WriteLine($"{man.Name} is no longer a free man and is now matched with {woman.Name}");
+                    break;
+                }
+                else 
+                {
+                    Console.WriteLine($"{woman.Name} is matched already...");
+
+                    int currentManIndex = Array.FindIndex(woman.GetPreferences(), x => x == woman.EngagedTo);
+                    int potentialManIndex = Array.FindIndex(woman.GetPreferences(), x => x == man);
+
+                    if (currentManIndex > potentialManIndex)
+                        Console.WriteLine($"{woman.Name} is satisfied with {woman.EngagedTo.Name}");
+                    else
+                    {
+                        Console.WriteLine($"{man.Name} is better than {woman.EngagedTo.Name}");
+                        Console.WriteLine($"{woman.EngagedTo.Name} is now free");
+                        Console.WriteLine($"{man.Name} can now be matched with {woman.Name}");
+
+                        man.EngagedTo = woman;
+                        woman.EngagedTo = man;
+                        menCount--;
+                        break;
+                    }
+                }
+            }
         }
     }
 }
-
-/*
-algorithm stable_matching is
-    Initialize all m ∈ M and w ∈ W to free
-    while ∃ free man m who still has a woman w to propose to do
-        w := first woman on m's list to whom m has not yet proposed
-        if w is free then
-            (m, w) become engaged
-        else some pair (m', w) already exists
-            if w prefers m to m' then
-                m' becomes free
-                (m, w) become engaged 
-            else
-                (m', w) remain engaged
-            end if
-        end if
-    repeat 
-
-
-    while there exist a free man m who still has a woman w to propose to 
-    {
-        w = m's highest ranked such woman to whom he has not yet proposed
-        if w is free
-           (m, w) become engaged
-        else some pair (m', w) already exists
-           if w prefers m to m'
-              (m, w) become engaged
-               m' becomes free
-           else
-              (m', w) remain engaged    
-    }
- */
