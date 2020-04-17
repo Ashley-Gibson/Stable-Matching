@@ -2,14 +2,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Stable_Matching
 {
     public static class StableMatching
     {
-        private static readonly List<Male> men = new List<Male>();
-        private static readonly List<Female> women = new List<Female>();
+        public static List<Male> men = new List<Male>();
+        public static List<Female> women = new List<Female>();
 
         private static int menCount = 0;
 
@@ -18,15 +17,15 @@ namespace Stable_Matching
             Male David = new Male("David"), James = new Male("James"), John = new Male("John"), Adam = new Male("Adam");
             Female Amy = new Female("Amy"), Elise = new Female("Elise"), Jessica = new Female("Jessica"), Donna = new Female("Donna");
 
-            David.SetPreferences(new Person[]{ Donna, Elise, Donna, Amy });
-            James.SetPreferences(new Person[] { Elise, Amy, Jessica, Donna });
-            John.SetPreferences(new Person[] { Jessica, Elise, Amy, Jessica });
-            Adam.SetPreferences(new Person[] { Elise, Amy, Donna, Jessica });
+            David.SetPreferences(new Female[]{ Donna, Elise, Donna, Amy });
+            James.SetPreferences(new Female[] { Elise, Amy, Jessica, Donna });
+            John.SetPreferences(new Female[] { Jessica, Elise, Amy, Jessica });
+            Adam.SetPreferences(new Female[] { Elise, Amy, Donna, Jessica });
 
-            Amy.SetPreferences(new Person[] { David, James, John, Adam });
-            Elise.SetPreferences(new Person[] { James, David, John, Adam });
-            Jessica.SetPreferences(new Person[] { James, John, David, James });
-            Donna.SetPreferences(new Person[] { Adam, David, James, John });
+            Amy.SetPreferences(new Male[] { David, James, John, Adam });
+            Elise.SetPreferences(new Male[] { James, David, John, Adam });
+            Jessica.SetPreferences(new Male[] { James, John, David, James });
+            Donna.SetPreferences(new Male[] { Adam, David, James, John });
 
             men.Add(David);
             men.Add(James);
